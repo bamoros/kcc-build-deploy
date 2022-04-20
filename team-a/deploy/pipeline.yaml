@@ -1,0 +1,30 @@
+apiVersion: deploy.cloud.google.com/v1
+kind: DeliveryPipeline
+metadata:
+ name: team-a-pipeline
+description: Infrastructure Pipeline
+#Define Pipeline targets
+serialPipeline:
+ stages:
+ - targetId: staging
+   profiles: [staging]
+ - targetId: prod
+   profiles: [prod]
+---
+#Staging Target
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+ name: staging
+description: staging target
+gke:
+ cluster: projects/PROJECT_ID/locations/REGION/clusters/CLUSTER_NAME
+---
+#Prod Target
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+ name: prod
+description: production target
+gke:
+ cluster: projects/PROJECT_ID/locations/REGION/clusters/CLUSTER_NAME

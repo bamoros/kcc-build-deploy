@@ -1,0 +1,21 @@
+apiVersion: skaffold/v2beta16
+kind: Config
+metadata:
+ name: getting-started-kustomize
+deploy:
+  kubectl:
+    manifests:
+      - resources/dev/*.yaml
+profiles:
+- name: staging
+  deploy:
+    kubectl:
+      manifests:
+        - resources/staging/*.yaml
+- name: prod
+  deploy:
+    kubectl:
+      manifests:
+        - resources/prod/*.yaml
+
+

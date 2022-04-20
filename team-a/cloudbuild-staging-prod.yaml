@@ -1,0 +1,39 @@
+substitutions:
+  _REGION: us-central1
+  _TEAM: team-a
+  _TARGET_PROJECT_ID: amoros-sandbox-344216
+  _CLOUDSDK_CONTAINER_CLUSTER: krmapihost-config-controller-bc
+
+#Var Substitutions - deploy pipeline
+steps:
+- name: 'google/cloud-sdk:latest'
+  entrypoint: 'sh'
+  args:
+  - -xe
+  - -c
+  - |
+    gcloud config set deploy/region ${_REGION} 
+    sed -i s/PROJECT_ID/$PROJECT_ID/g ${_TEAM}/resources/staging/*
+    sed -i s/PROJECT_ID/$PROJECT_ID/g ${_TEAM}/resources/prod/* 
+    sed -i s/PROJECT_ID/$PROJECT_ID/g ${_TEAM}/deploy/*
+    sed -i s/REGION/${_REGION}/g ${_TEAM}/deploy/*
+    sed -i s/CLUSTER_NAME/${_CLOUDSDK_CONTAINER_CLUSTER}/g ${_TEAM}/deploy/*
+    gcloud deploy apply --file ${_TEAM}/deploy/pipeline.yaml
+
+
+#Create a new release for the changes
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  entrypoint: gcloud
+  args:
+    [
+      "deploy", "releases", "create", "rel-${SHORT_SHA}",
+      "--delivery-pipeline=${_TEAM}-pipeline",
+      "--skaffold-file=${_TEAM}/skaffold.yaml",
+      "--region", "us-central1",
+      "--annotations", "commitId=${REVISION_ID}",
+    ]
+
+
+
+
+
