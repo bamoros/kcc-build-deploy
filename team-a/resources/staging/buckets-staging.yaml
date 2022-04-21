@@ -21,7 +21,7 @@ metadata:
     label-one: "value-one"
   namespace: config-control
   # StorageBucket names must be globally unique. Replace ${PROJECT_ID?} with your project ID
-  name: newrepo-staging-PROJECT_ID
+  name: staging-PROJECT_ID
 spec:
   lifecycleRule:
     - action:
