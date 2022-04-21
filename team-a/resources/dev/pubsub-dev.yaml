@@ -12,14 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: pubsub.cnrm.cloud.google.com/v1beta1
-kind: PubSubTopic
-metadata:
-  labels:
-    label-one: "value-one"
-  namespace: config-control
-  annotations:
-      cnrm.cloud.google.com/project-id: PROJECT_ID
-  name: pubsub-topic-dev
-spec:
-  resourceID: pubsubtopic-sample
+ apiVersion: pubsub.cnrm.cloud.google.com/v1beta1
+  kind: PubSubTopic
+  metadata:
+    labels:
+      label-one: "value-one"
+    namespace: config-control
+    name: dev-topic
